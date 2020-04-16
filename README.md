@@ -13,13 +13,12 @@ In this case, I'll have to repeat a lot of settings from #1 and #2 in both ```ap
 
 This library enables **Layered Environment Settings** when loading settings. You can define your environments with inheritance hierarchy, and tell the host builder to inherit settings based on the hierarchy - or in other words, you build your environment specific settings like buliding docker images. You get something like below:
 ![environment setup](https://github.com/sidecus/layeredsettings/blob/master/sample/wwwroot/env.png "Layered environment settings")
-
 This solves the issue of having to repeat the same settings among similar environments. It also has the potential benefit to help you shift settings/variables from your dev ops pipeline into the settings file so that you can have better history tracking in the same way as your dev code.
 
 Check [AppEnvironment.cs](https://github.com/sidecus/layeredsettings/blob/master/sample/AppEnvironments.cs) to see how layered settings environments can be defined, and [Program.cs](https://github.com/sidecus/layeredsettings/blob/master/sample/Program.cs) about how it's being used from the sample folder.
 
 # how to run locally
-Easiest way to mimic different environments is to use VSCode to mimic different environments. I have different configurations in ```launch.json``` to mimic each environment.
+Easiest way to mimic different environments is to use VSCode to mimic different environments. I have different configurations in ```launch.json``` to mimic each environment
 ![Run locally](https://github.com/sidecus/layeredsettings/blob/master/sample/wwwroot/vscoderun.png "How to run locally")
 
 # things to keep in mind
