@@ -34,12 +34,14 @@
         }
     </style>
     <div class="content">
-        <h1>LayeredSettings for env: @env.EnvironmentName</h1>
-        <div class="row"><h3>StringOption:</h3>@appConfig.Value.StringOption</div>
-        <div class="row"><h3>InheritedFromRoot:</h3>@appConfig.Value.FromRoot</div>
-        <div class="row"><h3>InheritedFromProduction:</h3>@appConfig.Value.FromProduction</div>
-        <div class="row"><h3>InheritedFromPPE:</h3>@appConfig.Value.FromPPE</div>
-        <div class="row"><h3>InheritedFromDevelopment:</h3>@appConfig.Value.FromDevelopment</div>
+        <h1>Environment Setup</h1>
+        <div class="row"><img src="/env.png" /></div>
+        <h1>Current Environment: @env.EnvironmentName</h1>
+        <div class="row"><h3>CommonOption:</h3>@appConfig.Value.CommonOption</div>
+        <div class="row"><h3>ProductionOnlyOption:</h3>@appConfig.Value.ProductionOnlyOption</div>
+        <div class="row"><h3>PPEOnlyOption:</h3>@appConfig.Value.PPEOnlyOption</div>
+        <div class="row"><h3>DevelopmentOnlyOption:</h3>@appConfig.Value.DevelopmentOnlyOption</div>
+        <div class="row"><h3>DevOverridePPEOption:</h3>@appConfig.Value.DevOverridePPEOption</div>
     </div>
 </body>
 </html>
