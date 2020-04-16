@@ -9,6 +9,10 @@ Assume I have this environment setup:
 1. A dummy data backed Pre Production environment (PPE) deployed to Azure which overrides ```appsettings.json``` with PPE specific settings
 1. Local Development environment which uses most of the PPE settings with several special local dev environment specific settings
 
-In this case, I'll have to repeat the needed PPE settings in ```appsettings.Development.json```. And this can cause maintenance issues and even worse out of sync settings.
+In this case, I'll have to repeat the needed PPE settings in ```appsettings.Development.json```. This can cause maintenance issues and in the worse case scenarios it ends up with some settings out of sync.
 
 This library enables **Environment Inheritance** when loading settings. You can define your environments with inheritance hierarchy, and tell the host builder to inherit settings based on the hierarchy.
+
+This solves the issue of having to repeat the same settings between environments. It also has the potential benefit for you to shift more settings from your dev ops pipeline into the settings file so that you can have better settings history tracking just from in your code base.
+
+Check [AppEnvironment.cs](https://github.com/sidecus/layeredsettings/blob/master/sample/AppEnvironments.cs) to see how layered settings environments can be defined, and [Program.cs](https://github.com/sidecus/layeredsettings/blob/master/sample/Program.cs) about how it's being used from the sample folder.
