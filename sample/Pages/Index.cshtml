@@ -16,7 +16,7 @@
     <meta name="theme-color" content="#000000">
     
     <link rel="shortcut icon" href="~/images/favicon_black.ico">
-    <title>zyin.aspnetcore.envsettings</title>
+    <title>LayedSettings Example</title>
 </head>
 <body>
     <style>
@@ -34,7 +34,7 @@
         }
     </style>
     <div class="content">
-        <h1>zyin.aspnetcore.envsettings for env: @env.EnvironmentName</h1>
+        <h1>LayeredSettings for env: @env.EnvironmentName</h1>
         <div class="row"><h3>StringOption:</h3>@appConfig.Value.StringOption</div>
         <div class="row"><h3>InheritedFromRoot:</h3>@appConfig.Value.FromRoot</div>
         <div class="row"><h3>InheritedFromProduction:</h3>@appConfig.Value.FromProduction</div>

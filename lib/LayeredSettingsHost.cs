@@ -10,7 +10,7 @@
     /// <summary>
     /// Custom web host for webhost builder creation
     /// </summary>
-    public static class ZyinHost
+    public static class LayeredSettingsHost
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IHostBuilder"/> class with pre-configured defaults.
@@ -24,9 +24,9 @@
         /// <param name="args">The command line args.</param>
         /// <param name="environments">The predefined environments. If it's null we'll default to the .net core default behavior</param>
         /// <returns>The initialized <see cref="IHostBuilder"/>.</returns>
-        public static IHostBuilder CreateLayeredSettingsBuilder(string[] args, IEnumerable<Environment> environments = null)
+        public static IHostBuilder CreateHostBuilder(string[] args, IEnumerable<Environment> environments = null)
         {
-            ZyinHost.ValidateEnvironments(environments);
+            LayeredSettingsHost.ValidateEnvironments(environments);
             
             var builder = Host.CreateDefaultBuilder();
             builder.ConfigureAppConfiguration((hostingContext, config) =>
@@ -34,7 +34,7 @@
                 var env = hostingContext.HostingEnvironment;
                 
                 // Add json file settings based on the environments
-                ZyinHost.AddJsonFiles(hostingContext, config, environments);
+                LayeredSettingsHost.AddJsonFiles(hostingContext, config, environments);
 
                 if (env.IsDevelopment() && !string.IsNullOrEmpty(env.ApplicationName))
                 {

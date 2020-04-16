@@ -11,8 +11,14 @@ namespace sample
             CreateHostBuilder(args).Build().Run();
         }
 
+        /// <summary>
+        /// Create host builder using the LayeredSettingsHost
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            ZyinHost.CreateLayeredSettingsBuilder(args, AppEnvironments.EnvironmentList)
+            LayeredSettingsHost
+                .CreateHostBuilder(args, AppEnvironments.EnvironmentList)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
