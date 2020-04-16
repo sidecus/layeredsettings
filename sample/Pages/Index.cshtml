@@ -1,0 +1,45 @@
+﻿@page
+
+@using Microsoft.Extensions.Options
+@using Microsoft.Extensions.Hosting
+@using sample
+
+@inject IHostEnvironment env
+@inject IOptions<AppConfig> appConfig
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    
+    <link rel="shortcut icon" href="~/images/favicon_black.ico">
+    <title>zyin.aspnetcore.envsettings</title>
+</head>
+<body>
+    <style>
+        div.content {
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+        div.row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+    </style>
+    <div class="content">
+        <h1>zyin.aspnetcore.envsettings for env: @env.EnvironmentName</h1>
+        <div class="row"><h3>StringOption:</h3>@appConfig.Value.StringOption</div>
+        <div class="row"><h3>InheritedFromRoot:</h3>@appConfig.Value.FromRoot</div>
+        <div class="row"><h3>InheritedFromProduction:</h3>@appConfig.Value.FromProduction</div>
+        <div class="row"><h3>InheritedFromPPE:</h3>@appConfig.Value.FromPPE</div>
+        <div class="row"><h3>InheritedFromDevelopment:</h3>@appConfig.Value.FromDevelopment</div>
+    </div>
+</body>
+</html>
