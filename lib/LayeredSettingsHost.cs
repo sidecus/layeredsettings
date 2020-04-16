@@ -89,13 +89,18 @@
             var reloadOnChange = hostingContext.Configuration.GetValue("hostBuilder:reloadConfigOnChange", defaultValue: true);
             var envName = hostingContext.HostingEnvironment.EnvironmentName ?? Environments.Production;
 
-            // Find the inheritance hierarchy (from leaf node to root), then reverse it (root to leaf)
+            // Find the layering inheritance hierarchy (from leaf node to root), then reverse it (root to leaf)
+            // Not the most efficient code from algorithm point of view, but it's good enough since very limited number of environments will be defined in reality.
             var envHierarchy = new List<Environment>();
-            while (envName != null && environments.Any(e => string.Equals(e.Name, envName, StringComparison.OrdinalIgnoreCase)))
+            while (envName != null)
             {
-                var env = environments.First(e => string.Equals(e.Name, envName, StringComparison.OrdinalIgnoreCase));
-                envHierarchy.Add(env);
-                envName = env.Parent?.Name;
+                var env = environments.FirstOrDefault(e => string.Equals(e.Name, envName, StringComparison.OrdinalIgnoreCase));
+                if (env != null)
+                {
+                    envHierarchy.Add(env);
+                }
+
+                envName = env?.Parent?.Name;
             }
 
             envHierarchy.Reverse();

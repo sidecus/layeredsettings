@@ -10,9 +10,9 @@ namespace sample
     public static class AppEnvironments
     {
         /// <summary>
-        /// Environments
+        /// Environment list
         /// </summary>
-        public static List<Environment> EnvironmentList = new List<Environment>();
+        public static List<Environment> EnvironmentList;
 
         /// <summary>
         /// Initializes the app environments
@@ -21,13 +21,9 @@ namespace sample
         {
             var prodEnv = new Environment(Environments.Production);
             var ppeEnv = new Environment("PPE");
+            var devEnv = new Environment(Environments.Development, parent: ppeEnv);
 
-            // Dev is inherited from PPE
-            var devEnv = new Environment(Environments.Development, ppeEnv);
-
-            EnvironmentList.Add(prodEnv);
-            EnvironmentList.Add(devEnv);
-            EnvironmentList.Add(ppeEnv);
+            EnvironmentList = new List<Environment>() { prodEnv, devEnv, ppeEnv };
         }
     }
 }
