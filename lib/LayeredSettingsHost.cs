@@ -90,26 +90,21 @@
             var envName = hostingContext.HostingEnvironment.EnvironmentName ?? Environments.Production;
 
             // Find the layering inheritance hierarchy (from leaf node to root), then reverse it (root to leaf)
-            // Not the most efficient code from algorithm point of view, but it's good enough since very limited number of environments will be defined in reality.
             var envHierarchy = new List<Environment>();
-            while (envName != null)
+            var env = environments.FirstOrDefault(e => string.Equals(e.Name, envName, StringComparison.OrdinalIgnoreCase));
+            while (env != null)
             {
-                var env = environments.FirstOrDefault(e => string.Equals(e.Name, envName, StringComparison.OrdinalIgnoreCase));
-                if (env != null)
-                {
-                    envHierarchy.Add(env);
-                }
-
-                envName = env?.Parent?.Name;
+                envHierarchy.Add(env);
+                env = env.Parent;
             }
 
             envHierarchy.Reverse();
 
             // Add json files based on the root to leaf hierarchy. Note appsettings.json is always included
             config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: reloadOnChange);
-            foreach (var env in envHierarchy)
+            foreach (var environment in envHierarchy)
             {
-                config.AddJsonFile($"appsettings.{env.Name}.json", optional: true, reloadOnChange: reloadOnChange);
+                config.AddJsonFile($"appsettings.{environment.Name}.json", optional: true, reloadOnChange: reloadOnChange);
             }
         }
     }
