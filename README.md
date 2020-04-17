@@ -1,6 +1,8 @@
 # layeredsettings
-.Net Core lib which supports **Layered Environment Settings** when loading settings.
+.Net Core lib which enables **Layered Environment Settings** when loading config.
+![.NET Core](https://github.com/sidecus/layeredsettings/workflows/.NET%20Core/badge.svg?branch=master)
 
+## Background
 .Net Core default host builder introduces the capability of adding [environment based settings](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1) for example ```appsettings.Development.json```. It also loads ```appsettings.json``` before the environment specific settings. This is a huge time saver for developers and avoids having to repeat  configuration values among different setting files.
 However, sometimes this is still not sufficient.
 
@@ -18,12 +20,12 @@ This solves the issue of having to repeat the same settings among similar enviro
 
 Check [SampleEnvironments.cs](https://github.com/sidecus/layeredsettings/blob/master/sample/SampleEnvironments.cs) to see how layered settings environments can be defined, and [Program.cs](https://github.com/sidecus/layeredsettings/blob/master/sample/Program.cs) about how it's being used from the sample folder.
 
-# how to run locally
+## how to run locally
 Easiest way to mimic different environments is to use VSCode to mimic different environments. I have different configurations in ```launch.json``` to mimic each environment.
 
 ![Run locally](https://github.com/sidecus/layeredsettings/blob/master/sample/wwwroot/vscoderun.png "How to run locally")
 
-# things to keep in mind
+## things to keep in mind
 When you have multiple custom environments beside just Development and Production (by specifying the ```ASPNETCORE_ENVIRONMENT``` environment variable to custom values), ***DO NOT*** do things like below:
  ```
  if (!env.IsProduction)
