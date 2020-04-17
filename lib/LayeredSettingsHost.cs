@@ -80,18 +80,24 @@
         }
 
         /// <summary>
-        /// Add environment based json file settings
+        /// Add json file settings based on current environment and the specified
+        /// environment inheritance layers.
+        /// If environments param is null, only appsettings.json will be added.
         /// </summary>
         /// <param name="hostingContext">hosting context</param>
         /// <param name="config">config builder</param>
-        private static void AddJsonFiles(HostBuilderContext hostingContext, IConfigurationBuilder config, IEnumerable<Environment> environments)
+        /// <param name="environments">array of defined environments</param>
+        private static void AddJsonFiles(
+            HostBuilderContext hostingContext,
+            IConfigurationBuilder config,
+            IEnumerable<Environment> environments)
         {
             var reloadOnChange = hostingContext.Configuration.GetValue("hostBuilder:reloadConfigOnChange", defaultValue: true);
             var envName = hostingContext.HostingEnvironment.EnvironmentName ?? Environments.Production;
 
             // Find the layering inheritance hierarchy (from leaf node to root), then reverse it (root to leaf)
             var envHierarchy = new List<Environment>();
-            var env = environments.FirstOrDefault(e => string.Equals(e.Name, envName, StringComparison.OrdinalIgnoreCase));
+            var env = environments?.FirstOrDefault(e => string.Equals(e.Name, envName, StringComparison.OrdinalIgnoreCase));
             while (env != null)
             {
                 envHierarchy.Add(env);
