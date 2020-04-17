@@ -1,8 +1,8 @@
 # layeredsettings
 .Net Core lib which supports **Layered Environment Settings** when loading settings.
 
-.Net Core default host builder introduces the capability of adding environment based settings (```appsettings.Development.json``` for exmaple). It also loads ```appsettings.json``` first before the environment specific settings which can save us time from repeating the same setting in different setting files.
-However, sometimes this is still not good enough.
+.Net Core default host builder introduces the capability of adding [environment based settings](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1) for example ```appsettings.Development.json```. It also loads ```appsettings.json``` before the environment specific settings. This is a huge time saver for developers and avoids having to repeat  configuration values among different setting files.
+However, sometimes this is still not sufficient.
 
 Assume I have this environment setup:
 1. A Production environment which overrides ```appsettings.json``` with production specific settings
@@ -16,7 +16,7 @@ This library enables **Layered Environment Settings** when loading settings. You
 ![environment setup](https://github.com/sidecus/layeredsettings/blob/master/sample/wwwroot/env.png "Layered environment settings")
 This solves the issue of having to repeat the same settings among similar environments. It also has the potential benefit to help you shift settings/variables from your dev ops pipeline into the settings file so that you can have better history tracking in the same way as your dev code.
 
-Check [AppEnvironment.cs](https://github.com/sidecus/layeredsettings/blob/master/sample/AppEnvironments.cs) to see how layered settings environments can be defined, and [Program.cs](https://github.com/sidecus/layeredsettings/blob/master/sample/Program.cs) about how it's being used from the sample folder.
+Check [SampleEnvironments.cs](https://github.com/sidecus/layeredsettings/blob/master/sample/SampleEnvironments.cs) to see how layered settings environments can be defined, and [Program.cs](https://github.com/sidecus/layeredsettings/blob/master/sample/Program.cs) about how it's being used from the sample folder.
 
 # how to run locally
 Easiest way to mimic different environments is to use VSCode to mimic different environments. I have different configurations in ```launch.json``` to mimic each environment.
