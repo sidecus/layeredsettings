@@ -36,7 +36,7 @@ namespace tests
             Assert.Equal(rootFileName, config["FileName"]);
 
             SaveConfig(appSettingsDEVPath, devEnvName);
-            builder = LayeredSettingsHost.CreateHostBuilder(null, new[] {new LayeredSettings.Environment(devEnvName)}).UseContentRoot(tempPath).UseEnvironment(devEnvName);
+            builder = LayeredSettingsHost.CreateHostBuilder(null, new[] {new HostEnvironment(devEnvName)}).UseContentRoot(tempPath).UseEnvironment(devEnvName);
             config = builder.Build().Services.GetRequiredService<IConfiguration>();
             Assert.Equal(devEnvName, config["FileName"]);
         }
@@ -54,8 +54,8 @@ namespace tests
             var appSettingsPPEPath = Path.Combine(tempPath, ppeFileName);
             var appSettingsDEVPath = Path.Combine(tempPath, devFileName);
 
-            var ppeEnv = new LayeredSettings.Environment(ppeEnvName);
-            var devEnv = new LayeredSettings.Environment(devEnvName, ppeEnv);
+            var ppeEnv = new HostEnvironment(ppeEnvName);
+            var devEnv = new HostEnvironment(devEnvName, ppeEnv);
 
             SaveConfig(appSettingsPPEPath, ppeEnvName);
             var builder = LayeredSettingsHost.CreateHostBuilder(null, new[] {ppeEnv}).UseContentRoot(tempPath).UseEnvironment(ppeEnvName);

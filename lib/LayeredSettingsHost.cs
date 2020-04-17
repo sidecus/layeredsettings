@@ -24,7 +24,7 @@
         /// <param name="args">The command line args.</param>
         /// <param name="environments">The predefined environments. If it's null we'll default to the .net core default behavior</param>
         /// <returns>The initialized <see cref="IHostBuilder"/>.</returns>
-        public static IHostBuilder CreateHostBuilder(string[] args, IEnumerable<Environment> environments = null)
+        public static IHostBuilder CreateHostBuilder(string[] args, IEnumerable<HostEnvironment> environments = null)
         {
             LayeredSettingsHost.ValidateEnvironments(environments);
             
@@ -60,14 +60,14 @@
         /// Validate the environments array to make sure environments are distinct
         /// </summary>
         /// <param name="environments">environment array</param>
-        private static void ValidateEnvironments(IEnumerable<Environment> environments)
+        private static void ValidateEnvironments(IEnumerable<HostEnvironment> environments)
         {
             if (environments == null || environments.Any())
             {
                 return;
             }
 
-            var envDict = new Dictionary<string, Environment>(StringComparer.OrdinalIgnoreCase);
+            var envDict = new Dictionary<string, HostEnvironment>(StringComparer.OrdinalIgnoreCase);
             foreach (var env in environments)
             {
                 if (envDict.ContainsKey(env.Name))
@@ -90,13 +90,13 @@
         private static void AddJsonFiles(
             HostBuilderContext hostingContext,
             IConfigurationBuilder config,
-            IEnumerable<Environment> environments)
+            IEnumerable<HostEnvironment> environments)
         {
             var reloadOnChange = hostingContext.Configuration.GetValue("hostBuilder:reloadConfigOnChange", defaultValue: true);
             var envName = hostingContext.HostingEnvironment.EnvironmentName ?? Environments.Production;
 
             // Find the layering inheritance hierarchy (from leaf node to root), then reverse it (root to leaf)
-            var envHierarchy = new List<Environment>();
+            var envHierarchy = new List<HostEnvironment>();
             var env = environments?.FirstOrDefault(e => string.Equals(e.Name, envName, StringComparison.OrdinalIgnoreCase));
             while (env != null)
             {
