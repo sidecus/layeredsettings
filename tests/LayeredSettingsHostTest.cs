@@ -35,8 +35,18 @@ namespace tests
             var config = builder.Build().Services.GetRequiredService<IConfiguration>();
             Assert.Equal(rootFileName, config["FileName"]);
 
+            // environment specified, observe it based on how it's configured
             SaveConfig(appSettingsDEVPath, devEnvName);
-            builder = LayeredSettingsHost.CreateHostBuilder(null, new[] {new HostEnvironment(devEnvName)}).UseContentRoot(tempPath).UseEnvironment(devEnvName);
+            builder = LayeredSettingsHost.CreateHostBuilder(null, new[] {new HostEnvironment(devEnvName)})
+                .UseContentRoot(tempPath)
+                .UseEnvironment(devEnvName);
+            config = builder.Build().Services.GetRequiredService<IConfiguration>();
+            Assert.Equal(devEnvName, config["FileName"]);
+
+            // no environments are specified, default to asp.net core behavior
+            builder = LayeredSettingsHost.CreateHostBuilder(null, null)
+                .UseContentRoot(tempPath)
+                .UseEnvironment(devEnvName);
             config = builder.Build().Services.GetRequiredService<IConfiguration>();
             Assert.Equal(devEnvName, config["FileName"]);
         }
@@ -56,14 +66,20 @@ namespace tests
 
             var ppeEnv = new HostEnvironment(ppeEnvName);
             var devEnv = new HostEnvironment(devEnvName, ppeEnv);
-
             SaveConfig(appSettingsPPEPath, ppeEnvName);
-            var builder = LayeredSettingsHost.CreateHostBuilder(null, new[] {ppeEnv}).UseContentRoot(tempPath).UseEnvironment(ppeEnvName);
+            SaveConfig(appSettingsDEVPath, devEnvName);
+
+            // PPE setting is used
+            var builder = LayeredSettingsHost.CreateHostBuilder(null, new[] {ppeEnv, devEnv})
+                .UseContentRoot(tempPath)
+                .UseEnvironment(ppeEnvName);
             var config = builder.Build().Services.GetRequiredService<IConfiguration>();
             Assert.Equal(ppeEnvName, config["FileName"]);
 
-            SaveConfig(appSettingsDEVPath, devEnvName);
-            builder = LayeredSettingsHost.CreateHostBuilder(null, new[] {devEnv}).UseContentRoot(tempPath).UseEnvironment(devEnvName);
+            // Dev setting is used and it overrides PPE
+            builder = LayeredSettingsHost.CreateHostBuilder(null, new[] {ppeEnv, devEnv})
+                .UseContentRoot(tempPath)
+                .UseEnvironment(devEnvName);
             config = builder.Build().Services.GetRequiredService<IConfiguration>();
             Assert.Equal(devEnvName, config["FileName"]);
         }

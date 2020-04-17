@@ -93,22 +93,25 @@
             IEnumerable<HostEnvironment> environments)
         {
             var reloadOnChange = hostingContext.Configuration.GetValue("hostBuilder:reloadConfigOnChange", defaultValue: true);
-            var envName = hostingContext.HostingEnvironment.EnvironmentName ?? Environments.Production;
+            var currentEnvName = hostingContext.HostingEnvironment.EnvironmentName ?? Environments.Production;
 
-            // Find the layering inheritance hierarchy (from leaf node to root), then reverse it (root to leaf)
-            var envHierarchy = new List<HostEnvironment>();
-            var env = environments?.FirstOrDefault(e => string.Equals(e.Name, envName, StringComparison.OrdinalIgnoreCase));
+            // Find the layering hierarchy (from children to parent), then reverse it.
+            // If the current environment cannot be found from the environments list, we fall back to
+            // the .net core behavior by creating a temp environment using current environment's name.
+            var layers = new List<HostEnvironment>();
+            var env = environments?.FirstOrDefault(e => string.Equals(e.Name, currentEnvName, StringComparison.OrdinalIgnoreCase));
+            env ??= new HostEnvironment(currentEnvName);
             while (env != null)
             {
-                envHierarchy.Add(env);
+                layers.Add(env);
                 env = env.Parent;
             }
+            
+            layers.Reverse();
 
-            envHierarchy.Reverse();
-
-            // Add json files based on the root to leaf hierarchy. Note appsettings.json is always included
+            // Add json files based on parent to child layering. Note appsettings.json is always included
             config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: reloadOnChange);
-            foreach (var environment in envHierarchy)
+            foreach (var environment in layers)
             {
                 config.AddJsonFile($"appsettings.{environment.Name}.json", optional: true, reloadOnChange: reloadOnChange);
             }
