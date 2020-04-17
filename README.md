@@ -1,8 +1,9 @@
 # layeredsettings
 .Net Core lib which enables **Layered Environment Settings** when loading config.
+
 ![.NET Core](https://github.com/sidecus/layeredsettings/workflows/.NET%20Core/badge.svg?branch=master)
 
-## Background
+## background
 .Net Core default host builder introduces the capability of adding [environment based settings](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1) for example ```appsettings.Development.json```. It also loads ```appsettings.json``` before the environment specific settings. This is a huge time saver for developers and avoids having to repeat  configuration values among different setting files.
 However, sometimes this is still not sufficient.
 
